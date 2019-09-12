@@ -1,0 +1,58 @@
+完成猜数字游戏 
+import java.util.Random;
+import java.util.Scanner;
+
+public class Testc {
+    public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    Son son = new Son();
+    int input = 1;
+    while (input != 0) {
+    son.menu ();
+    System.out.println("请选择:->");
+    input = sc.nextInt();
+        switch (input) {
+        case 0:
+                System.out.println("退出游戏");
+                break;
+        case 1:
+                System.out.println("进入游戏");
+                Mom mom = new Mom();
+                mom.game ();
+                break;
+        default :
+                System.out.println("输入错误，请重新输入");
+                break;
+            }
+    }
+    }
+}
+
+class Son {
+    public void menu () {
+        System.out.println("******************");
+        System.out.println("**** 0. exit  ****");
+        System.out.println("**** 1. play  ****");
+        System.out.println("******************");
+    }
+}
+
+class  Mom {
+    public void game () {
+        Scanner sc = new Scanner(System.in);
+        Random random = new Random();
+        int toGuess = random.nextInt(100)+1;
+        System.out.println("请输答案");
+        while (true) {
+            int guess = sc.nextInt();
+            if (guess > toGuess) {
+                System.out.println("猜大了");
+            } else if (guess < toGuess) {
+                System.out.println("猜小了");
+            } else {
+                System.out.println("猜对了");
+                break;
+            }
+        }
+    }
+}
