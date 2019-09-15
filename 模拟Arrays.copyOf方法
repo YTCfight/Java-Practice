@@ -1,0 +1,18 @@
+import java.util.Arrays;
+
+public class Practice {
+    public static void main(String[] args) {
+       int [] arr = new int [] {1,2,3,4};
+       int [] ret = copy(arr);
+       System.out.println(Arrays.toString(ret));
+       }
+    public static int [] copy(int [] arr) {
+        int [] str = new int [arr.length];
+        int count = 0;
+        for (int x : arr) {
+            str[count] = x;
+            count++;
+        }
+        return str;
+    }
+}
