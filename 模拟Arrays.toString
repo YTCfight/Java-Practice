@@ -1,0 +1,20 @@
+import java.util.Arrays;
+
+public class Practice {
+    public static void main(String[] args) {
+       int [] arr = new int [] {1,2,3,4};
+       String ret = arrayToString(arr);
+       System.out.println(ret);
+       }
+    public static  String arrayToString(int [] arr) {
+        String result = "[";
+        for (int i = 0; i < arr.length; i++) {
+            result += arr[i];
+            if (i != arr.length-1) {
+                result += ", ";
+            }
+        }
+        result += "]";
+        return result;
+    }  
+}
