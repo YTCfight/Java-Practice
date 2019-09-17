@@ -1,0 +1,18 @@
+  写一个方法，将数组中的每个元素都*2
+    方法一
+    int [] arr = new int [] {1,2,3,4};
+    int [] ret = multiplyTwoToArray(arr);
+    System.out.println(Arrays.toString(ret));
+    }
+    public static void multiplyTwoToArray(int [] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] *= 2;
+        }
+    }
+    方法二
+    public static int [] multiplyTwoToArray(int [] arr) {
+        int [] ret = new int [arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            ret[i] = arr[i] * 2;
+        }
+        return ret;
