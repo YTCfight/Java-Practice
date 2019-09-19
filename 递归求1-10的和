@@ -1,0 +1,22 @@
+//递归求1-10的和
+    // int num = 10;
+    // int ret = sum (num);
+    // System.out.println(ret);
+    // }
+    // public static int sum (int num) {
+    //     if (num == 1) {
+    //         return 1;
+    //     } else {
+    //         return num + sum (num - 1);
+    //     }
+    // Scanner sc = new Scanner(System.in);
+    // int num = sc.nextInt();
+    // int ret = sum (num);
+    // System.out.println(ret);
+    // }
+    // public static int sum (int num) {
+    //     if (num < 10) {
+    //         return num % 10;
+    //     } else {
+    //         return (num % 10) + sum (num / 10);
+    //     }
