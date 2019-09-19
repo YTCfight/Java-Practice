@@ -1,0 +1,21 @@
+ 汉诺塔问题
+    Scanner sc = new Scanner(System.in);
+    System.out.println("请输入数字");
+    int num = sc.nextInt();
+    hanota(num, 'A', 'B', 'C');
+    System.out.println();
+    }
+    public static void hanota (int num, char pos1, char pos2, char pos3) {
+        if (num <= 0) {
+            return;
+        } if (num == 1) {
+            move (pos1, pos3);
+            return;
+        } else {
+            hanota (num - 1, pos1, pos3, pos2);
+            move (pos1, pos3);
+            hanota (num - 1, pos2, pos1, pos3);
+        }
+    }
+    public static void move (char pos1, char pos2) {
+        System.out.print(pos1 + "->" + pos2 + " ");
