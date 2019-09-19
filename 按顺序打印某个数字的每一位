@@ -1,0 +1,14 @@
+//按顺序打印数字每一位
+    Scanner sc = new Scanner(System.in);
+    System.out.println("请输入数字");
+    int num = sc.nextInt();
+    printNumber(num);
+    System.out.println();
+    }
+    public static void printNumber(int num) {
+        if (num > 10) {
+            printNumber(num / 10);
+        }
+        System.out.print(num % 10 + " ");
+    }
+}
