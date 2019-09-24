@@ -1,0 +1,175 @@
+public class SeqList {
+    private int [] data = new int [10];
+    private int size = 0;
+
+    public void display() {
+        System.out.print("[");
+        for (int i = 0;i < size; i++) {
+            System.out.print(data[i]);
+            if (i != size - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+
+
+    //pos表示插入元素的下标，elem表示插入元素的值
+    public void add(int pos,int elem) {
+        //pos == size也允许插入，此时相当于尾插
+        // 。
+        if (pos < 0 || pos > size) {
+            return;
+        }
+        if (this.size >= this.data.length) {
+            //当前容量不够，需要扩容，申请一块更大的空间，把原来的数据拷贝过去。
+            realloc();
+        }
+        if (pos == size) {
+            //尾差的情况，直接把新元素放到size下标的位置上
+            this.data[pos] = elem;
+            this.size++;
+            return;
+        }
+        //处理插入在中间位置的情况，进行搬运，把后面的元素一次往后挪
+        for (int i = this.size; i > pos; i--) {
+            this.data[i] = this.data[i - 1];
+        }
+        this.data[pos] = elem;
+        this.size++;
+    }
+
+    private void realloc() {
+        //扩容的策略很灵活。根据实际问题而定。
+        int [] newData = new int [this.data.length * 2];
+        for (int i = 0; i < this.data.length; i++) {
+            newData[i] = this.data[i];
+        }
+        this.data = newData;
+    }
+
+    public boolean contains(int toFind) {
+//        for (int i = 0; i < this.size; i++) {
+//            if (this.data[i] == toFind) {
+//                return true;
+//            }
+//        }
+//        return false;
+        return search(toFind) != -1;
+    }
+
+
+    public int search(int toFind) {
+        for (int i = 0; i < this.size; i++) {
+            if (this.data[i] == toFind) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public int getPos(int pos) {
+        return this.data[pos];
+    }
+
+    public void setPos(int pos,int elem) {
+        this.data[pos] = elem;
+    }
+
+    //按值删除，删除第一次出现的值
+    public void remove(int toRemove) {
+        int pos = search(toRemove);
+        if (pos == -1) {
+            //这个值不存在，不必删除
+            return;
+        }
+        if (pos == this.size - 1) {
+            //如果是最后一个元素，直接size--即可。
+            this.size--;
+            return;
+        }
+        //如果删除的是一般的位置，需要搬运
+        for (int i = pos; i < size; i++) {
+            this.data[i] = this.data[i + 1];
+        }
+        this.size--;
+    }
+
+    public int size() {
+        return this.size;
+    }
+
+    public void clear() {
+        this.size = 0;
+        //缩容
+        //this.data = new int [10];
+    }
+}
+
+
+
+
+
+
+
+
+//测试代码
+
+public class Lianbiao {
+    public static void main(String[] args) {
+       Testadd();
+       TestContains();
+       Testsearch();
+       TestRemove();
+    }
+    public static void Testadd() {
+        System.out.println("测试 add 方法");
+        SeqList se = new SeqList();
+        se.add(0,1);
+        se.add(1,2);
+        se.add(2,3);
+        se.add(3,4);
+        se.add(4,5);
+        se.add(2,100);
+        se.display();
+    }
+
+    public static void TestContains() {
+        System.out.println("测试 contains 方法");
+        SeqList se = new SeqList();
+        se.add(0,1);
+        se.add(1,2);
+        se.add(2,3);
+        se.add(3,4);
+        se.add(4,5);
+        se.add(2,100);
+        boolean result = se.contains(5);
+        System.out.println("result 预期是 true ，实际是 " + result);
+    }
+
+    public static void Testsearch() {
+        System.out.println("测试 search 方法");
+        SeqList se = new SeqList();
+        se.add(0,1);
+        se.add(1,2);
+        se.add(2,3);
+        se.add(3,4);
+        se.add(4,5);
+        se.add(2,100);
+        int result = se.search(100);
+        System.out.println("result 预期是 2 ， 实际是  " + result);
+    }
+    public static void TestRemove() {
+        System.out.println("测试 remove 方法");
+        SeqList se = new SeqList();
+        se.add(0,1);
+        se.add(1,2);
+        se.add(2,3);
+        se.add(3,4);
+        se.add(4,5);
+        se.add(2,100);
+        se.remove(3);
+        System.out.print("预期值是 1 2 100 4 5 实际值是 ");
+        se.display();
+    }
+}
