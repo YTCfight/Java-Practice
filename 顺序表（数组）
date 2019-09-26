@@ -89,7 +89,7 @@ public class SeqList {
             return;
         }
         //如果删除的是一般的位置，需要搬运
-        for (int i = pos; i < size; i++) {
+        for (int i = pos; i < size - 1; i++) {
             this.data[i] = this.data[i + 1];
         }
         this.size--;
