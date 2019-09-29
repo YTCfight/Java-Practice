@@ -1,0 +1,27 @@
+//得到链表的中间元素
+    public void middleNode() {
+        if (this.head == null) {
+            return;
+        }
+        //得到链表的长度
+        int steps = size() / 2;
+        LinkedNode node = this.head;
+        for (int i = 0; i < steps; i++) {
+            node = node.next;
+        }
+        System.out.println(node.data);
+    }
+
+    //得到链表的中间节点（方法二）
+    public void middleNode1() {
+        if (this.head == null) {
+            return;
+        }
+        LinkedNode slow = this.head;
+        LinkedNode fast = this.head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        System.out.println(slow.data);
+    }
