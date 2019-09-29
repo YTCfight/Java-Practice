@@ -1,0 +1,24 @@
+//删除某个值的所有元素
+    public void removeAllKey(int toRemove) {
+        if (this.head == null) {
+            return;
+        }
+        //先处理后续的节点，再处理头结点
+        LinkedNode prev = this.head;
+        LinkedNode cur = this.head.next;
+        while (cur != null) {
+            if (cur.data == toRemove) {
+                //cur对应的节点就要删除
+                prev.next = cur.next;
+                cur = prev.next;
+            } else {
+                prev = cur;
+                cur = cur.next;
+            }
+        }
+        //处理头结点
+        if (this.head.data == toRemove) {
+            this.head = this.head.next;
+        }
+        return;
+    }
