@@ -1,0 +1,33 @@
+//得到链表的倒数第k个节点(方法一）
+    public void findKthTOTail(int k) {
+        int len = size();
+        if (this.head == null || k <= 0 || k > len) {
+            return;
+        }
+        int offset = len - k;
+        LinkedNode node = this.head;
+        for (int i = 0; i < offset; i++) {
+            node = node.next;
+        }
+        System.out.println(node.data);
+    }
+
+    //得到链表的倒数第k个节点（方法二）
+    public void findKthToTail1(int k) {
+        int len = size();
+        if (this.head == null || k <= 0 || k > len) {
+            return;
+        }
+        LinkedNode slow = this.head;
+        LinkedNode fast = this.head;
+        //fast先走k步
+        while (k != 0) {
+            fast = fast.next;
+            k--;
+        }
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        System.out.println(slow.data);
+    }
