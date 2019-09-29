@@ -1,0 +1,28 @@
+//反转链表
+    public void reverseList() {
+        if (this.head == null || this.head.next == null) {
+            return;
+        }
+        LinkedNode2 prev = null;
+        LinkedNode2 cur = this.head;
+        while (cur != null) {
+            LinkedNode2 next = cur.next;
+            if (next == null) {
+                this.head = cur;
+            }
+            cur.next = prev;
+            prev = cur;
+            cur = next;
+        }
+    }
+
+    //反转链表（递归版）
+    public LinkedNode2 reverseList1(LinkedNode2 node) {
+        if (node == null || node.next == null) {
+            return node;
+        }
+        LinkedNode2 p = reverseList1(node.next);
+        node.next.next = node;
+        node.next = null;
+        return p;
+    }
