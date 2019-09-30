@@ -25,3 +25,10 @@
         }
         return newHead.next;
     }
+private int size1(LinkedNode node) {
+        int count = 0;
+                for (LinkedNode cur = node; cur != null; cur = cur.next) {
+                    count++;
+                }
+                return count;
+}
