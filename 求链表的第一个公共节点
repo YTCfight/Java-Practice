@@ -1,0 +1,28 @@
+ //求链表的第一个公共节点
+    public LinkedNode getlntersectionNode(LinkedNode headA,LinkedNode headB) {
+        //1.分别求两个链表的长度
+        int lenA = size();
+        int lenB = size();
+        //2.让长的链表先走长度的差值步
+        if (lenA > lenB) {
+            int offset = lenA - lenB;
+            for (int i = 0; i < offset; i++) {
+                headA = headA.next;
+            }
+        } else {
+            int offset = lenB - lenA;
+            for (int i = 0; i < offset; i++) {
+                headB = headB.next;
+            }
+        }
+        //3.分别让两个链表的节点同时移动，比较节点是否是相同节点
+        while (headA != null && headB != null) {
+            //比较地址是否相同
+            if (headA == headB) {
+                return headA;
+            }
+            headA = headA.next;
+            headB = headB.next;
+        }
+        return null;
+    }
