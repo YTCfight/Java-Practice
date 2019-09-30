@@ -1,0 +1,42 @@
+ //判断回文链表
+    public boolean chkPalindrome(LinkedNode A) {
+        if (A == null) {
+            return true;
+        }
+        if (A.next == null) {
+            return true;
+        }
+        //自己加的
+        A = A.next;
+        //1.找中间节点
+        int len = size1(A);
+    int steps = len / 2;
+    LinkedNode B = A;
+        for (int i = 0; i < steps; i++) {
+        B = B.next;
+    }
+    //经过画图演示，发现奇数个和偶数个的情况
+    //下面可以用相同代码来表示的
+    LinkedNode prev = null;
+    LinkedNode cur = B;
+        while (cur != null) {
+        LinkedNode next = cur.next;
+        if (next == null) {
+            //使 B 指向新链表的头部
+            B = cur;
+        }
+        cur.next = prev;
+        prev = cur;
+        cur = next;
+    }
+    //3.对比两个链表内容是否相同
+        while (B != null) {
+        if (A.data != B.data) {
+            //对应元素不相，一定不是回文
+            return false;
+        }
+        A = A.next;
+        B = B.next;
+    }
+        return true;
+}
