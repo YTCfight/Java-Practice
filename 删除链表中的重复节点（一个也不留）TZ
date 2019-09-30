@@ -1,0 +1,27 @@
+ //删除链表中的重复节点（一个也不留）
+    public LinkedNode deleteDuplication(LinkedNode pHead) {
+        //创建一个新的链表，用来放置不重复的元素
+        LinkedNode newHead = new LinkedNode(-1);
+        LinkedNode newTail = newHead;
+        LinkedNode cur = pHead;
+        while (cur != null) {
+            if (cur.next != null && cur.data == cur.next.data) {
+                //说明cur 指向的位置已经是重复的节点了。
+                //继续往后找 cur， 找到那个不重复的节点位置。
+                //这样做是为了把若干个相同的节点都跳过去
+                while (cur.next != null && cur.data == cur.next.data) {
+                    cur = cur.next;
+                }
+                //循环结束，cur 指向的是这片重复元素的最后一个
+                //再多走一步，cur 指向的就是不重复的元素了
+                cur = cur.next;
+            } else {
+                //当前这个节点不是重复节点
+                //就把这个节点插入到新的链表中
+                newTail.next = new LinkedNode(cur.data);
+                newTail = newTail.next;
+                cur = cur.next;
+            }
+        }
+        return newHead.next;
+    }
