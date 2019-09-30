@@ -1,0 +1,28 @@
+   //分隔链表
+    public LinkedNode partiton(LinkedNode pHead, int x) {
+        if (pHead == null) {
+            return null;
+        }
+        if (pHead.next == null) {
+            //只有一个元素
+            return pHead;
+        }
+        LinkedNode smallHead = new LinkedNode(-1);
+        LinkedNode smallTail = smallHead;
+        LinkedNode bigHead = new LinkedNode(-1);
+        LinkedNode bigTail = bigHead;
+        for (LinkedNode cur = pHead; cur != null; cur = cur.next) {
+            if (cur.data < x) {
+                //插到smallTail 之后
+                smallTail.next = new LinkedNode(cur.data);
+                smallTail = smallTail.next;
+            } else {
+                //插到bigTail 之后
+                bigTail.next = new LinkedNode(cur.data);
+                bigTail = bigTail.next;
+            }
+        }
+        //因为smallHead 跟 bigHead 都是傀儡节点，所以要从他们的.next开始
+        smallTail.next = bigHead.next;
+        return smallHead.next;
+    }
