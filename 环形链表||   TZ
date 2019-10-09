@@ -1,0 +1,28 @@
+     //求带环链表的交点
+    public LinkedNode detectCycle(LinkedNode head) {
+        //从链表头部出发，到入口点的距离和从快慢指针的交汇处出发到到入口点的距离相等
+        if (head == null) {
+            return null;
+        }
+        LinkedNode fast = head;
+        LinkedNode slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                break;
+            }
+        }
+        if (fast == null || fast.next == null) {
+            //不带环
+            return null;
+        }
+        //循环结束之后，fast 和 slow 就已经重合了。
+        LinkedNode cur1 = head;
+        LinkedNode cur2 = fast;
+        while (cur1 != cur2) {
+            cur1 = cur1.next;
+            cur2 = cur2.next;
+        }
+        return cur1;
+    }
