@@ -1,0 +1,16 @@
+ //判断链表是否带环
+    public boolean hasCycle(LinkedNode head) {
+        if (head == null) {
+            return false;
+        }
+        LinkedNode fast = head;
+        LinkedNode slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                return true;
+            }
+        }
+        return false;
+    }
