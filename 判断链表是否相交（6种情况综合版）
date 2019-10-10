@@ -1,0 +1,73 @@
+ //判断链表是否相交（6种情况综合版）
+    public boolean getlntersectionNode1(LinkedNode2 headA, LinkedNode2 headB) {
+        if (headA == null || headB == null) {
+            return false;
+        }
+        //1.判断链表是否带环
+        LinkedNode2 fast1 = headA;
+        LinkedNode2 slow1 = headB;
+        while (fast1 != null && fast1.next != null) {
+            fast1 = fast1.next.next;
+            slow1 = slow1.next;
+            if (fast1 == slow1) {
+                //链表带环
+                break;
+            }
+        }
+        LinkedNode2 fast2 = headB;
+        LinkedNode2 slow2 = headB;
+        while (fast2 != null && fast2.next != null) {
+            fast2 = fast2.next.next;
+            slow2 = slow2.next;
+            if (fast2 == slow2) {
+                //链表带环
+                break;
+            }
+        }
+        if (fast1 == null || fast1.next == null && fast2 == null || fast2.next == null) {
+            //两个链表都不带环，直接调用前面写的函数即可。
+            LinkedNode2 cur = getlntersectionNode(headA,headB);
+            if (cur == null) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        //如果一个带环，一个不带，直接判定不相交
+        if (fast1 == null || fast1.next == null && (fast2 != null && fast2.next != null)) {
+            return false;
+        }
+        if (fast2 == null || fast2.next == null && (fast1 != null && fast1.next != null)) {
+            return false;
+        }
+        //两个链表都带环，分别求两个环的入口
+        LinkedNode2 cur1 = headA;
+        LinkedNode2 cur2 = fast1;
+        while (cur1 != cur2) {
+            cur1 = cur1.next;
+            cur2 = cur2.next;
+        }
+        LinkedNode2 cur3 = headB;
+        LinkedNode2 cur4 = fast2;
+        while (cur3 != cur4) {
+            cur3 = cur3.next;
+            cur4 = cur4.next;
+        }
+        //入口点一样，则相交（环外相交）
+        if (cur1 == cur3) {
+            return true;
+        }
+        //如果入口点不一样，则从一个入口点在环上走，看能否找到另一个入口点，如果能找到，那么两个链表相交；
+        //如果在环上找不到另一个入口点，则两个链表不相交
+        LinkedNode2 node = cur1.next;
+        while (node != cur1) {
+            //找到另一个入口点
+            if (node == cur3) {
+                //环内相交
+                return true;
+            }
+            node = node.next;
+        }
+        //如果 node 回到最初的起点，那么久没有找到
+        return false;
+    }
