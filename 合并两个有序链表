@@ -1,0 +1,23 @@
+ //不用在开头判断 l1、l2 的值，因为如果两者为空的时候根本不会进入循环，直接就返回了。
+ 
+ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode newHead = new ListNode(-1);
+        ListNode newTail = newHead;
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                newTail.next = new ListNode(l1.val);
+                l1 = l1.next;
+            } else {
+                newTail.next = new ListNode(l2.val);
+                l2 = l2.next;
+            }
+            newTail = newTail.next;
+        }
+        if (l1 == null) {
+            newTail.next = l2;
+        }
+        if (l2 == null) {
+            newTail.next = l1;
+        }
+        return newHead.next;
+    }
