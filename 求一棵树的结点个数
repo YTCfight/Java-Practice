@@ -1,0 +1,19 @@
+//方法一：
+ public static int treeSize = 0;
+    public static void size(Node root) {
+        if (root == null) {
+            return;
+        }
+        treeSize++;
+        size(root.left);
+        size(root.right);
+    }
+    
+//方法二
+  public static int size1(Node root) {
+        if (root == null) {
+            return 0;
+        }
+        //这棵树的节点个数： 1 + 左子树的节点个数 + 右子树的节点个数
+        return 1 + size1(root.left) + size1(root.right);
+    }
