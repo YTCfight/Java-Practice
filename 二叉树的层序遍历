@@ -1,0 +1,23 @@
+  //层序遍历
+    public void levelOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        //创建一个队列辅助进行遍历
+        Queue<TreeNode> queue = new LinkedList<>();
+        //1.先把 root 插入队列
+        queue.offer(root);
+        //4.重复执行 2
+        while (!queue.isEmpty()) {
+            //2.循环取队首元素,访问这个元素
+            TreeNode cur = queue.poll();
+            System.out.print(cur.val + " ");
+            //3.把当前这个队首元素左子树和右子树都插入队列中
+            if (cur.left != null) {
+                queue.offer(cur.left);
+            }
+            if (cur.right != null) {
+                queue.offer(cur.right);
+            }
+        }
+    }
