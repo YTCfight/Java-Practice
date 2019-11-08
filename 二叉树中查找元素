@@ -1,0 +1,18 @@
+ //查找元素
+    public static Node find(Node root, char toFind) {
+        //先比较一下当前的根节点是不是要找的元素
+        //递归找左子树和递归找右子树
+        if (root == null) {
+            return null;
+        }
+        //当前节点是不是要找的节点
+        if (root.val == toFind) {
+            return root;
+        }
+        //递归找左子树
+        Node ret = find(root.left,toFind);
+        if (ret != null) {
+            return ret;
+        }
+        return find(root.right, toFind);
+    }
