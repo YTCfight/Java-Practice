@@ -1,0 +1,15 @@
+//方法一
+ //借助遍历的方式，访问节点的时候，先判断是不是叶子节点
+    public static int leafSize = 0;
+    public static void getLeafSize(Node root) {
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            // root 就是叶子节点
+            leafSize++;
+            return;
+        }
+        getLeafSize(root.left);
+        getLeafSize(root.right);
+    }
