@@ -13,3 +13,17 @@
         getLeafSize(root.left);
         getLeafSize(root.right);
     }
+    
+
+//方法二
+ public static int getLeafSize1(Node root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+        // 求 root 有多少个叶子节点，
+        // 左子树的叶子节点个数 + 右子树的叶子节点个数
+        return getLeafSize1(root.left) + getLeafSize1(root.right);
+    }
