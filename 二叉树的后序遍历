@@ -1,0 +1,59 @@
+方法一：递归版
+
+ public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        //递归遍历左子树
+        result.addAll(postorderTraversal(root.left));
+        //递归遍历右子树
+        result.addAll(postorderTraversal(root.right));
+        //访问根节点。此处访问就是把元素插入到集合
+        result.add(root.val);
+        return result;
+    }
+    
+
+方法二：非递归版本
+
+//非递归后序遍历
+    public static void postOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        //1.创建一个栈
+        Stack<TreeNode> stack = new Stack<>();
+        //2.创建一个 cur 从root 出发
+        TreeNode cur = root;
+        //prev 永远指向上次访问的节点
+        TreeNode prev = null;
+        while (true) {
+            //3.借助 cur 循环往左找，如果该节点不为 null， 就入栈
+            while (cur != null) {
+                stack.push(root);
+                cur = cur.left;
+            }
+            //4.如果 cur 为 null， 取栈顶元素,准备访问
+            //要是 top 能访问，再 pop，否则还要在栈里待一会
+            if (stack.isEmpty()) {
+                //遍历结束
+                break;
+            }
+            TreeNode top = stack.peek();
+            //5.到底能否访问栈顶元素，有两种情况：
+            // a）栈顶元素没有右子树就可以访问
+            // b）栈顶元素的右子树刚刚已经访问过，也可以访问
+            if (top.right == null || prev == top.right) {
+                //这种情况说明可以访问 top 节点
+                System.out.println(top.val);
+                stack.pop();
+                //同时更新 prev
+                prev = top;
+            } else {
+                //此时这个节点不能访问
+                //6.cur 指向栈顶元素的右子树
+                cur = top.right;
+            }
+        }
+    }
