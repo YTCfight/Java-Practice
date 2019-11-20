@@ -1,0 +1,20 @@
+ //插入排序
+    public static void insertSort(int[] array) {
+        //bound 变量来把整个数组分成两个区间
+        //[0, bound) 已排序区间
+        //[bound, size) 待排序区间
+        for (int bound = 1; bound < array.length; bound++) {
+            //bound 下标对应的元素就是待插入元素
+            //把这个元素放到前面的有序顺序表中的合适位置
+            int tmp = array[bound];
+            int cur = bound - 1;
+            for (; cur >= 0; cur--) {
+                if (array[cur] > tmp) {
+                    array[cur + 1] = array[cur];
+                } else {
+                    break;
+                }
+            }
+            array[cur + 1] = tmp;
+        }
+    }
