@@ -1,0 +1,42 @@
+//堆排序
+    public static void heapSort(int[] array) {
+        //1.创建堆
+        createHeap(array);
+        //2.循环取出堆顶的最大值，放到最后
+        for (int i = 0; i < array.length; i++) {
+            //待排序区间：[0, array.length - i)
+            //已排序区间：[array.length - i, array.length)
+            swap(array, 0, array.length - 1 - i);
+            //第一个参数树是数组，第二个参数是数组中有效元素的个数，
+            //第三个参数是从哪个位置进行调整
+            shiftDown(array, array.length - 1 - i , 0);
+        }
+    }
+    private static void createHeap(int[] array) {
+        //从最后一个非叶子结点出发，从后往前向下调整
+        for (int i = (array.length - 1 - 1)/ 2; i >= 0; i--) {
+            shiftDown(array, array.length, i);
+        }
+    }
+    private static void shiftDown(int[] array, int size, int index) {
+        int parent = index;
+        int child = 2 * parent + 1;
+        while (child < size) {
+            if (child + 1 < size && array[child + 1] > array[child]) {
+                child = child + 1;
+            }
+            if (array[child] > array[parent]) {
+                swap(array,parent, child);
+            } else {
+                break;
+            }
+            parent = child;
+            child = 2 * parent + 1;
+        }
+    }
+    
+    private static void swap(int[] array, int x, int y) {
+        int tmp = array[x];
+        array[x] = array[y];
+        array[y] = tmp;
+    }
