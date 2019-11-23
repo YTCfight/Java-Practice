@@ -1,0 +1,91 @@
+//快速排序（非递归版本）
+    public static void quickSort(int[] array) {
+        //参数的含义表示针对数组中的哪段区间进行快速排序
+        //[0, array.length - 1]
+        quickSortHelp(array, 0, array.length - 1);
+    }
+    private static void quickSortHelp(int[] array, int left, int right) {
+        if (left >= right) {
+            //如果只有一个元素或者没有元素，都不需要排序
+            return;
+        }
+        //这个方法就是刚才进行区间整理的方法
+        //选取基准值，并且把小于基准值的放到左侧，大于基准值的放到右侧
+        //返回值[left, right] 最终整理完毕后，基准值的下标
+        int index = partition(array, left, right);
+        quickSortHelp(array, left, index - 1);
+        quickSortHelp(array, index + 1, right);
+    }
+
+    //基准值为最后一元素
+    private static int partition(int[] array, int left, int right) {
+        //基准值
+        int baseValueIndex = right;
+        int baseValue = array[right];
+        while (left < right) {
+            while (left < right && array[left] <= baseValue) {
+                left++;
+            }
+            //循环结束之后，left 指向的位置就是从左往右第一个比基准值大的元素
+            while (left < right && array[right] >= baseValue) {
+                right--;
+            }
+            //这个循环结束之后，right 指向的位置就是从右往左第一个比基准值小的元素
+            //交换 left 和 right 位置的元素
+            swap(array,left, right);
+        }
+        //为什么证明此处的 left 比基准值大呢？
+        //循环结束有两种情况
+        //1.left++ 导致的循环结束
+        //  上次循环过程中进行了一个 swap 操作，经过这个 swap 操作之后，right 一定指向一个大于基准值的元素，
+        //  此时如果 left 和 right 重合，那么 left 也指向在 right 位置处的那个大于基准值的元素。
+        //2.right-- 导致的循环结束
+        //  此时由于 left 刚刚找到一个比基准值大的元素，此时 left 与 right 重合之后，
+        //  对应的元素也就是刚才那个比基准值大的元素。
+        swap(array, left, baseValueIndex);
+        return left;
+    }
+
+    //基准值为第一个元素
+    private static int partition1(int[] array, int left, int right) {
+        int baseValueIndex = left;
+        int baseValue = array[left];
+        while (left < right) {
+            while (left < right && array[right] >= baseValue) {
+                right--;
+            }
+            while (left < right && array[left] <= baseValue) {
+                left++;
+            }
+            swap(array, left, right);
+        }
+        swap(array, left, baseValue);
+        return left;
+    }
+
+    //非递归版本的快速排序
+    public static void quickSortByLoop(int[] array) {
+        //1.先创建一个栈,栈里面存的是待处理区间的下标
+        Stack<Integer> stack = new Stack<>();
+        //2.初始情况下待处理区间就是整个数组
+        stack.push(array.length - 1);
+        stack.push(0);
+        while (!stack.isEmpty()) {
+            //3.取栈顶元素，栈顶元素就是我们要处理的区间
+            int left = stack.pop();
+            int right = stack.pop();
+            if (left >= right) {
+                continue;
+            }
+            //4.对当前待处理区间进行整理
+            int index = partition(array, left, right);
+            //5.接下来要处理的区间要入栈
+            //[left, index - 1]
+            //[index + 1, right]
+            stack.push(index - 1);
+            stack.push(left);
+
+            stack.push(right);
+            stack.push(index + 1);
+        }
+    }
