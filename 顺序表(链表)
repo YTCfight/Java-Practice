@@ -1,0 +1,216 @@
+class LinkedNode {
+    public int data = 0;
+    public LinkedNode next = null;
+    
+
+    //构造函数（初始化）
+    public LinkedNode(int data) {
+        this.data = data;
+    }
+    
+}
+
+public class Linkedlist1 {
+    //链表的头结点(head存的是地址值）
+    private LinkedNode head = null;
+    private LinkedNode head1 = null;
+
+    //头插
+    public void addFirst(int elem) {
+        //先创建一个节点，让这个节点的值就是elem
+        LinkedNode node = new LinkedNode(elem);
+        //node.data = elem;
+        //空链表的时候
+        if (this.head == null) {
+            this.head = node;
+            return;
+        }
+        //如果不是空链表，就需要把显得节点放到链表的开始位置
+        else {
+            node.next = head;
+            this.head = node;
+            return;
+        }
+    }
+
+    //打印链表内容
+    public void display() {
+        System.out.print("[");
+        for (LinkedNode node = this.head; node != null; node = node.next) {
+            System.out.print(node.data);
+            if (node.next != null) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+
+
+    //打印链表内容
+    public void display1(LinkedNode node) {
+        node = node.next;
+        System.out.print("[");
+        for (LinkedNode cur = node; cur != null; cur = cur.next) {
+            System.out.print(cur.data);
+            if (cur.next != null) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+
+    //尾插
+    public void addLast(int elem) {
+        LinkedNode node = new LinkedNode(elem);
+        //空链表的时候
+        if (this.head == null) {
+            this.head = node;
+            return;
+        }
+        LinkedNode cur = this.head;
+        //循环完后，cur是最后一个节点。
+        while (cur.next != null) {
+            cur = cur.next;
+        }
+        cur.next = node;
+        return;
+    }
+
+    //尾插
+    public void addLast2(LinkedNode pHead, int elem) {
+        LinkedNode node = new LinkedNode(elem);
+        LinkedNode cur = pHead;
+        while (cur.next != null) {
+            cur = cur.next;
+        }
+        cur.next = node;
+        return;
+    }
+
+    public void addLast1(int elem) {
+        LinkedNode node = new LinkedNode(elem);
+        //空链表的时候
+        if (this.head1 == null) {
+            this.head1 = node;
+            return;
+        }
+        LinkedNode cur = this.head1;
+        //循环完后，cur是最后一个节点。
+        while (cur.next != null) {
+            cur = cur.next;
+        }
+        cur.next = node;
+        return;
+    }
+    //任意位置插入数据
+    public void addIndex(int index, int elem) {
+        LinkedNode node = new LinkedNode(elem);
+        //插入到其他位置,先对index进行合法性的校验，需要知道链表的长度。
+        int len = size();
+        if (index < 0 || index > len) {
+            return;
+        }
+        //处理头插情况
+        if (index == 0) {
+            addFirst(elem);
+            return;
+        }
+        //尾插
+        if (index == len) {
+            addLast(elem);
+            return;
+        }
+        //prev这个引用就对应到index - 1 这个位置上
+        LinkedNode prev = getIndexPos(index - 1);
+        //完成插入过程
+        node.next = prev.next;
+        prev.next = node;
+    }
+
+    private LinkedNode getIndexPos(int index) {
+        LinkedNode cur = this.head;
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+        }
+        return cur;
+    }
+
+    public int size() {
+        int size = 0;
+        for (LinkedNode cur = this.head; cur != null; cur = cur.next) {
+            size++;
+        }
+        return size;
+    }
+
+    //检查某个值是否存在
+    public boolean contains(int toFind) {
+        for (LinkedNode cur = this.head; cur != null; cur = cur.next) {
+            if (cur.data == toFind) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //移除某个元素（删除第一次出现的那个数字）
+    public void remove(int toMove) {
+        //空链表情况
+        if (head == null) {
+            return;
+        }
+        //考虑是否要删除的是头结点
+        if (head.data == toMove) {
+            this.head = this.head.next;
+            return;
+        }
+        //删除中间的节点，找到要删除的前一个元素
+        LinkedNode prev = searchPrev(toMove);
+        if (prev == null) {
+            return;
+        }
+        //prev.next = prev.next.next;   这种写法虽然没错，但是比较抽象
+        LinkedNode nodeToRemove = prev.next;
+        prev.next = nodeToRemove.next;
+    }
+    private LinkedNode searchPrev(int toRemove) {
+        //找到要删除元素的前一个位置。
+        if (this.head == null) {
+            return null;
+        }
+        LinkedNode prev = this.head;
+        while (prev.next != null) {
+            if (prev.next.data == toRemove) {
+                return prev;
+            }
+            prev = prev.next;
+        }
+        //返回 nul 表示没找到
+        return null;
+    }
+
+    //删除某个值的所有元素
+    public void removeAllKey(int toRemove) {
+        if (this.head == null) {
+            return;
+        }
+        //先处理后续的节点，再处理头结点
+        LinkedNode prev = this.head;
+        LinkedNode cur = this.head.next;
+        while (cur != null) {
+            if (cur.data == toRemove) {
+                //cur对应的节点就要删除
+                prev.next = cur.next;
+                cur = prev.next;
+            } else {
+                prev = cur;
+                cur = cur.next;
+            }
+        }
+        //处理头结点
+        if (this.head.data == toRemove) {
+            this.head = this.head.next;
+        }
+        return;
+      }
+    }
