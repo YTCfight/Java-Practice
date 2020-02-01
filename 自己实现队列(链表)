@@ -1,0 +1,82 @@
+package StackQueue;
+
+class Node {
+    public int val;
+    public Node next;
+
+    public Node(int val) {
+        this.val = val;
+    }
+}
+
+public class MyQueue {
+    //head 对应到队首元素
+    private Node head = null;
+    //tail 对应到队尾元素
+    private Node tail = null;
+    private int size = 0;
+
+    //队列的基本操作
+    //1.入队列
+    public void offer(int x) {
+        Node newNode = new Node(x);
+        //插入到链表的尾部
+        //1.空链表
+        if (head == null) {
+            head = newNode;
+            tail = newNode;
+            size++;
+            return;
+        }
+        //2.非空链表
+        tail.next = newNode;
+        tail = tail.next;
+        size++;
+    }
+
+    //2.出队列.被出队列的元素的值通过返回值来表示。
+    public Integer poll() {
+        //1.空队列
+        if (head == null) {
+            return null;
+        }
+        //2.非空队列
+        Integer ret = head.val;
+        head = head.next;
+        if (head == null) {
+            //如果当前队列就一个元素，删掉这个元素的同时，也要修改 tail 的指向
+            tail = null;
+        }
+        size--;
+        return ret;
+    }
+    //3.取队首元素
+    public Integer peek() {
+        if (head == null) {
+            return null;
+        }
+        return head.val;
+    }
+    //4.判定队列为空
+    public boolean isEmpty() {
+        return head == null;
+    }
+    //5.取队列中元素个数
+    public int size() {
+        return size;
+    }
+
+    public static void main(String[] args) {
+        MyQueue myQueue = new MyQueue();
+        myQueue.offer(1);
+        myQueue.offer(2);
+        myQueue.offer(3);
+        myQueue.offer(4);
+        while (!myQueue.isEmpty()) {
+            int curFront = myQueue.peek();
+            System.out.println(curFront);
+            myQueue.poll();
+        }
+    }
+}
+
