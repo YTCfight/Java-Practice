@@ -1,0 +1,88 @@
+package tree2;
+
+import java.util.Arrays;
+
+public class MyPriorityQueue {
+    //这个数组就是队列本体。基于这个数组建立堆
+    private int [] array = new int[10];
+    //队列中元素的个数，堆的大小
+    private int size = 0;
+
+    public void offer(int x) {
+        if (size >= array.length) {
+            return;
+        }
+        array[size] = x;
+        size++;
+        shiftUp(array, size - 1);
+    }
+
+    private void shiftUp(int[] array, int index) {
+        int child = index;
+        int parent = (index - 1) / 2;
+        while (child > 0) {
+            if (array[parent] < array[child]) {
+                //交换两个元素
+                swap(array, parent, child);
+            } else {
+                //调整完了
+                break;
+            }
+            child = parent;
+            parent = (child - 1) / 2;
+        }
+    }
+
+    private static void swap(int[] array, int x, int y) {
+        int tmp = array[x];
+        array[x] = array[y];
+        array[y] = tmp;
+    }
+
+    //堆顶元素就是返回值
+    //删除堆顶元素并不是直接删除，而是用最后一个元素覆盖堆顶元素，再从堆顶元素向下调整即可
+    public Integer poll() {
+        if (size == 0) {
+            return null;
+        }
+        int ret = array[0];
+        array[0] = array[size - 1];
+        size--;
+        shiftDown(array, size, 0);
+        return ret;
+    }
+
+    private static void shiftDown(int[] array, int size, int index) {
+        int parent = index;
+        int child = 2 * parent + 1;
+        while (child < size) {
+            if (child + 1 < size && array[child + 1] > array[child]) {
+                child = child + 1;
+            }
+            if (array[parent] < array[child]) {
+                swap(array, parent, child);
+            } else {
+                break;
+            }
+            parent = child;
+            child = parent * 2 + 1;
+        }
+    }
+    public Integer peek() {
+        if (size == 0) {
+            return null;
+        }
+        return array[0];
+    }
+
+    public static void main(String[] args) {
+        MyPriorityQueue myPriorityQueue = new MyPriorityQueue();
+        myPriorityQueue.offer(1);
+        myPriorityQueue.offer(2);
+        myPriorityQueue.offer(3);
+        myPriorityQueue.offer(4);
+        System.out.println(Arrays.toString(myPriorityQueue.array));
+    }
+
+
+}
