@@ -1,0 +1,72 @@
+ private volatile static String INDEX = "A";
+    public static void main(String[] args) throws InterruptedException {
+        //创建三个线程，每个线程分别打RU印 A,B,C
+        //让 B 等待 A， C 等待 B即可
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    for (int i = 0; i < 10; i++) {
+                       synchronized (SequencePrint.class) {
+                           while (!INDEX.equals("A")) {
+                               SequencePrint.class.wait();
+                           }
+                           System.out.print(INDEX);
+                           INDEX = "B";
+                           SequencePrint.class.notifyAll();
+                       }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    for (int i = 0; i < 10; i++) {
+                        synchronized (SequencePrint.class) {
+                            while (!INDEX.equals("B")) {
+                                SequencePrint.class.wait();
+                            }
+                            System.out.print(INDEX);
+                            INDEX = "C";
+                            SequencePrint.class.notifyAll();
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        Thread thread3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    for (int i = 0; i < 10; i++) {
+                        synchronized (SequencePrint.class) {
+                            while (!INDEX.equals("C")) {
+                                SequencePrint.class.wait();
+                            }
+                            System.out.println(INDEX);
+                            INDEX = "A";
+                            SequencePrint.class.notifyAll();
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        thread3.start();
+        thread1.start();
+        thread2.start()
+
+    }
