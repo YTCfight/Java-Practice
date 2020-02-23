@@ -1,0 +1,37 @@
+  private static volatile String[] ARR = {"A", "B", "C"};
+    private static volatile int INDEX1;
+
+    public static void fun3() {
+        new Thread(new MyRunnable2("A")).start();
+        new Thread(new MyRunnable2("B")).start();
+        new Thread(new MyRunnable2("C")).start();
+    }
+
+    static class MyRunnable2 implements Runnable {
+        private String s;
+
+        public MyRunnable2(String s) {
+            this.s = s;
+        }
+
+        @Override
+        public void run() {
+            for (int i = 0; i < 10; i++) {
+                synchronized (PrintABC.class) {
+                    try {
+                        while (!s.equals(ARR[INDEX1])) {
+                            PrintABC.class.wait();
+                        }
+                        System.out.print(s);
+                        INDEX1 = (INDEX1 + 1) % ARR.length;
+                        if (INDEX1 == 0) {
+                            System.out.println();
+                        }
+                        PrintABC.class.notifyAll();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
