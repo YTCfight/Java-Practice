@@ -82,7 +82,7 @@ public class MyBlockingQueue<E> {
                         }
                     }
                 }
-            }).start()
+            }).start();
         }
 
     }
