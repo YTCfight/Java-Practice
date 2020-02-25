@@ -1,0 +1,42 @@
+public class MyThreadPool {
+
+    // 存放任务的阻塞队列
+    private MyBlockingQueue<Runnable> myBlockingQueue;
+
+    // 存放线程的数组
+    private MyWorker[] workers;
+
+    public MyThreadPool(int capacity, int size) {
+        // 确定线程池的大小
+        workers = new MyWorker[capacity];
+        // 确定阻塞队列的大小
+        myBlockingQueue = new MyBlockingQueue<>(size);
+        // 创建并启动线程，并且确保左右线程用同一个阻塞队列
+        for (int i = 0; i < capacity; i++) {
+            workers[i] = new MyWorker(myBlockingQueue);
+            workers[i].start();
+        }
+    }
+
+    public void execute(Runnable task) {
+        myBlockingQueue.offer(task);
+    }
+}
+
+
+class MyWorker extends Thread {
+
+    private MyBlockingQueue<Runnable> myBlockingQueue;
+
+    public MyWorker(MyBlockingQueue myBlockingQueue) {
+        this.myBlockingQueue = myBlockingQueue;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            Runnable task = myBlockingQueue.pull();
+            task.run();
+        }
+    }
+}
