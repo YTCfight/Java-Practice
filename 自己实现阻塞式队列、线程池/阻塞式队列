@@ -1,0 +1,89 @@
+import java.util.*;
+
+public class MyBlockingQueue<E> {
+
+    //队列元素
+    private Object[] elements;
+    //添加元素时的位置
+    private int addIndex;
+    //取出元素时的位置
+    private int takeIndex;
+    //队列大小,数组具体使用到了位置的下标
+    private int size;
+
+    // 构造方法初始化阻塞队列的容量
+    public MyBlockingQueue(int range) {
+        elements = new Object[range];
+    }
+
+
+    // 取元素
+    public synchronized E pull() {
+        E element = null;
+        try {
+            while (size == 0) {
+                this.wait();
+            }
+            element = (E) elements[takeIndex];
+            takeIndex = (takeIndex + 1) % elements.length;
+            size--;
+            this.notifyAll();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return element;
+    }
+
+
+    // 存元素
+    public synchronized void offer(E element) {
+        try {
+            while (size == elements.length) {
+                this.wait();
+            }
+            elements[addIndex] = element;
+            addIndex = (addIndex + 1) % elements.length;
+            size++;
+            this.notifyAll();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static volatile int COUNT;
+
+    public static void main(String[] args) {
+        MyBlockingQueue myBlockingQueue = new MyBlockingQueue(10);
+        for (int i = 0; i < 2; i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int j = 0; j < 5; j++) {
+                        int num = new Random().nextInt(100) + 1;
+                        synchronized (myBlockingQueue) {
+                            COUNT++;
+                            System.out.println(num + "存" + COUNT);
+                            myBlockingQueue.offer(num);
+                        }
+                    }
+                }
+            }).start();
+        }
+
+        for (int i = 0; i < 2; i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int j = 0; j < 5; j++) {
+                        synchronized (myBlockingQueue) {
+                            COUNT++;
+                            System.out.println(myBlockingQueue.pull() + "取" + COUNT);
+                        }
+                    }
+                }
+            }).start();
+        }
+
+    }
+}
