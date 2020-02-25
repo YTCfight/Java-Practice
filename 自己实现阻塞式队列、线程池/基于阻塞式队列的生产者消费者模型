@@ -1,0 +1,77 @@
+public class MyBlockingQueue<E> {
+
+    public static void main(String[] args) {
+        MyBlockingQueue<String> queue = new MyBlockingQueue<>(20);
+
+        // 10 个生产者
+        for (int i = 0; i < 10; i++) {
+            int finalI = i;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        for (int j = 0; j < 3; j++) {
+                            queue.put(String.valueOf(finalI + "," +j));
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+
+        // 100 消费者
+        for (int i = 0; i < 30; i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String e = queue.take();
+                        System.out.println(e);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+    }
+
+    private Object[] elements;
+
+    // 当前可以保存元素的索引
+    private int putIndex;
+
+    // 当前可以获取元素的索引
+    private int takeIndex;
+
+    // 当前元素的数量
+    private int size;
+
+    public MyBlockingQueue(int capacity) {
+        elements = new Object[capacity];
+    }
+
+    public synchronized void put(E element) throws InterruptedException {
+        // 超出上限，生产阻塞等待
+        while (size == elements.length) {
+            this.wait();
+        }
+        elements[putIndex] = element;
+        putIndex = (putIndex + 1) % elements.length;
+        size++;
+        this.notifyAll();
+    }
+
+    public synchronized E take() throws InterruptedException {
+        // 达到下限，消费阻塞等待
+        while (size == 0) {
+            this.wait();
+        }
+        E element = (E) elements[takeIndex];
+        takeIndex = (takeIndex + 1) % elements.length;
+        size--;
+        this.notifyAll();
+        return element;
+    }
+
+}
