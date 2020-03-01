@@ -1,0 +1,127 @@
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+
+public class FileInputStreamTest {
+    public static void main(String[] args) {
+        test1();
+        //test2();
+        //test3();
+        //test4();
+        //test5();
+        //test6();
+    }
+
+    public static void test1() {
+        //当前 Java 类实际工作目录
+        try {
+            System.out.println(System.getProperty("user.dir"));
+            File f = new File("src/test1.txt");
+            System.out.println(f.exists());
+            FileInputStream fileInputStream = new FileInputStream(f);
+            byte[] bytes = new byte[1024];
+            int len = 0;
+            while ((len = fileInputStream.read(bytes)) != -1) {
+                String s = new String(bytes, 0, len);
+                System.out.println(s);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void test2() {
+        //当前 Java 类实际工作目录
+        try {
+            System.out.println(System.getProperty("user.dir"));
+            File f = new File("src/test1.txt");
+            System.out.println(f.exists());
+            FileReader fileReader = new FileReader(f);
+            char[] chars = new char[1024];
+            int len = 0;
+            while ((len = fileReader.read(chars)) != -1) {
+                String s = new String(chars, 0, len);
+                System.out.println(s);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void test3() {
+        //当前 Java 类实际工作目录
+        try {
+            System.out.println(System.getProperty("user.dir"));
+            File f = new File("src/test1.txt");
+            System.out.println(f.exists());
+            FileInputStream fileInputStream = new FileInputStream(f);
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+            byte[] bytes = new byte[1024];
+            int len = 0;
+            while ((len = bufferedInputStream.read(bytes)) != -1) {
+                String s = new String(bytes, 0, len);
+                System.out.println(s);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void test4() {
+        //当前 Java 类实际工作目录
+        try {
+            System.out.println(System.getProperty("user.dir"));
+            File f = new File("src/test1.txt");
+            System.out.println(f.exists());
+            FileReader fileReader = new FileReader(f);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String s;
+            while ((s = bufferedReader.readLine()) != null) {
+                System.out.println(s);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //往文件中写数据
+    public static void test5() {
+        try {
+            File f = new File("src/test1.txt");
+            FileWriter fileWriter = new FileWriter(f);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write("1 = hello world\n");
+            bufferedWriter.write("hello bit");
+            bufferedWriter.newLine();
+            bufferedWriter.write("hahe");
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void test6() {
+        //当前 Java 类实际工作目录
+        try {
+            System.out.println(System.getProperty("user.dir"));
+            File f = new File("src/test1.txt");
+            System.out.println(f.exists());
+            FileInputStream fileInputStream = new FileInputStream(f);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream,
+                    StandardCharsets.US_ASCII);
+            char[] chars = new char[1024];
+            int len = 0;
+            while ((len = inputStreamReader.read(chars)) != -1) {
+                System.out.println(new String(chars, 0, len));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+}
