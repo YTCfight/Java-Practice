@@ -1,0 +1,9 @@
+ //懒汉式
+    private volatile static Sington SINGTON2;
+    public static Sington getInstance2() {
+        //多个线程可以同时进入这行代码进行判断，都判断为 null
+        if (SINGTON2 == null) {
+            SINGTON2 = new Sington();
+        }
+        return SINGTON2;
+    }
