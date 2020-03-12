@@ -1,0 +1,10 @@
+//改为线程安全的做法：
+    private volatile static Sington SINGTON2;
+    // synchronized 第一种写法：
+    public synchronized static Sington getInstance3() {
+        //多个线程可以同时进入这行代码进行判断，都判断为 null
+        if (SINGTON2 == null) {
+            SINGTON2 = new Sington();
+        }
+        return SINGTON2;
+    }
