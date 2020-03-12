@@ -1,0 +1,13 @@
+private static final Sington SINGTON = new Sington();
+
+    private Sington() {
+        //nothing to do
+    }
+
+
+    //饿汉式
+
+    //返回当前类的实例对象
+    public static Sington getInstance() {
+        return SINGTON;
+    }
