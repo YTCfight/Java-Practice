@@ -1,0 +1,18 @@
+ private volatile static Sington SINGTON2;
+ public static Sington getInstance4() {
+        //多个线程可以同时进入这行代码进行判断，都判断为 null
+        //DCL：double check locking 双重校验锁：判断两次
+        if (SINGTON2 == null) {
+            synchronized (Sington.class) {
+                //可以分解成三步操作：
+                //1.分配对象的内存空间
+                //2.把对象初始化
+                //3.把对象赋给引用
+                //可能重排序为 132 的执行顺序
+                if (SINGTON2 == null) {
+                    SINGTON2 = new Sington();
+                }
+            }
+        }
+        return SINGTON2;
+    }
