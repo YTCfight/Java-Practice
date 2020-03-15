@@ -1,0 +1,20 @@
+package fanshe;
+
+import java.lang.reflect.Field;
+
+public class StringFanShe {
+    public static void main(String[] args) {
+        try {
+            String s = "hello";
+            Field field = s.getClass().getDeclaredField("value");
+            field.setAccessible(true);
+            char[] chars = (char[]) field.get(s);
+            chars[0] = 'H';
+            System.out.println(s);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+}
