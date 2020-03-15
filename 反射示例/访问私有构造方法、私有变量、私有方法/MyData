@@ -1,0 +1,23 @@
+package fanshe;
+
+public class MyData {
+    private static int a = 1;
+
+    private MyData() {
+        System.out.println("调用了无参构造方法");
+    }
+
+    private MyData(int element1, int element2) {
+        System.out.println("调用了有两个参数的构造方法");
+    }
+
+    private void eat() {
+        System.out.println("调用了无参方法eat");
+    }
+
+    private void eat(String element) {
+        System.out.println("调用了有一个参数的方法eat");
+    }
+
+
+}
